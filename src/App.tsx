@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./index.css";
 import { computeDPR, fitCanvas, attachResize } from "./game/resize";
 import { attachKeyboard } from "./game/input";
@@ -6,9 +6,12 @@ import { createWorld } from "./game/world";
 import { startLoop } from "./game/loop";
 import { update } from "./game/update";
 import { render } from "./game/render";
+import Card from "./component/card";
 
 export default function App() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [gameOver, setGameOver] = useState(false);
+  const [runId, setRunId] = useState(0); // to force re-render on restart
 
   useEffect(() => {
     const canvas = canvasRef.current!;
@@ -18,6 +21,7 @@ export default function App() {
     fitCanvas(canvas, ctx, dpr);
 
     const world = createWorld(canvas, ctx, dpr);
+    world.onGameOver = () => setGameOver(true);
 
     const detachResize = attachResize(canvas, ctx, () => computeDPR());
     const detachKeyboard = attachKeyboard(world.keys);
@@ -28,7 +32,7 @@ export default function App() {
       detachResize();
       detachKeyboard();
     };
-  }, []);
+  }, [runId]);
 
   return (
     <div className="h-full grid place-items-center bg-[radial-gradient(circle_at_30%_20%,#171a22_0%,#0b0d12_60%)]">
@@ -36,6 +40,18 @@ export default function App() {
         <div className="relative w-full h-full">
           <canvas ref={canvasRef} className="w-full h-full block" />
         </div>
+        {gameOver && (
+          <Card
+            title={"Game Over!"}
+            message={"Thanks for playing!"}
+            onRestart={() => {
+              setRunId((prev) => prev + 1);
+              setGameOver(false);
+              console.log("Restarting game...", runId);
+            }}
+            buttonText="Restart"
+          />
+        )}
       </div>
     </div>
   );

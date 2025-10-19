@@ -30,6 +30,7 @@ export function createWorld(
     tPrev: performance.now(),
     running: true,
     gameOver: false,
+    onGameOver: () => {},
   };
 
   // static enemies (created once)

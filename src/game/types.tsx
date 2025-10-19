@@ -20,4 +20,5 @@ export type World = {
   tPrev: number;
   running: boolean;
   gameOver: boolean;
+  onGameOver: () => void;
 };

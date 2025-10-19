@@ -1,6 +1,6 @@
 import type { Enemy, Player } from "./types";
 
-export function aabbOverlap(p: Player, e: Enemy) {
+export function collision(p: Player, e: Enemy) {
   const pLeft = p.pos.x;
   const pRight = p.pos.x + p.size;
   const pTop = p.pos.y;

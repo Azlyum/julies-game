@@ -1,5 +1,5 @@
 import type { World } from "./types";
-import { clamp, aabbOverlap } from "./collision";
+import { clamp, collision } from "./collision";
 
 export function update(world: World, dt: number) {
   if (!world.running || world.gameOver) return;
@@ -27,9 +27,10 @@ export function update(world: World, dt: number) {
 
   // collision with any enemy → game over once
   for (const e of world.enemies) {
-    if (aabbOverlap(player, e)) {
+    if (collision(player, e)) {
       world.gameOver = true;
       world.running = false;
+      world.onGameOver?.();
       break;
     }
   }
