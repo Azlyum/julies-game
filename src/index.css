@@ -1,6 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   color-scheme: dark;
 }
+
 html,
 body,
 #root {
@@ -10,30 +15,4 @@ body,
 body {
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
     Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-}
-.app {
-  height: 100%;
-  display: grid;
-  place-items: center;
-  background: radial-gradient(circle at 30% 20%, #171a22 0%, #0b0d12 60%);
-}
-.canvas-wrap {
-  width: min(92vw, 900px);
-  aspect-ratio: 16 / 9;
-  border-radius: 16px;
-  overflow: hidden;
-  outline: 1px solid #2a2f3a;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-  background: #0e1117;
-  position: relative;
-}
-.hud {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  padding: 10px;
-  display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-  opacity: 0.9;
 }

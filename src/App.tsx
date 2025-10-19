@@ -1,30 +1,9 @@
-// -----------------------------------------------------------
-// App.tsx — Core game loop for "For Julie ❤️"
-//
-// Pseudocode Summary:
-// 1. Mount a <canvas> and get its 2D drawing context.
-// 2. Keep a "world" object holding player position, keys pressed, and timing.
-// 3. Start an animation loop: update positions, render visuals, repeat.
-// 4. Use React only for mounting/unmounting, not frame updates.
-//
-// This file demonstrates how to mix React (UI lifecycle)
-// with a traditional game loop inside a <canvas>.
-// -----------------------------------------------------------
-
 import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
 
 export default function App() {
-  // --- Create canvas reference and state
-  // useRef gives us a handle to the <canvas> so we can draw directly on it.
-  // useState holds a simple message that we can render on the canvas.
-
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [message] = useState("For Julie ❤️"); // change/cycle messages later
-
-  // --- Effect: runs once on mount
-  // This sets up our drawing context, input listeners, and the animation loop.
-  // We use requestAnimationFrame for smooth timing and cleanup listeners on unmount.
+  const [message] = useState("For Julie ❤️");
 
   useEffect(() => {
     const canvas = canvasRef.current!;
@@ -34,11 +13,7 @@ export default function App() {
 
     const DPR = Math.max(1, Math.floor(window.devicePixelRatio || 1));
 
-    // --- Function: fitCanvas()
-    // Makes the canvas match the displayed CSS size * devicePixelRatio.
-    // This keeps drawings sharp on high-DPI screens (like Retina or 4K laptops).
     function fitCanvas() {
-      // CSS size stays responsive via wrapper; we map to device pixels
       const rect = canvas.getBoundingClientRect();
       canvas.width = Math.floor(rect.width * DPR);
       canvas.height = Math.floor(rect.height * DPR);
@@ -48,10 +23,6 @@ export default function App() {
     const onResize = () => fitCanvas();
     window.addEventListener("resize", onResize);
 
-    // --- Simple state
-    // --- Game state container ("world")
-    // Holds canvas dimensions, pressed keys, player info, and last frame time.
-    // Think of this like a mini-engine object we can mutate each frame.
     const world = {
       size: { w: () => canvas.width / DPR, h: () => canvas.height / DPR },
       keys: new Set<string>(),
@@ -63,41 +34,24 @@ export default function App() {
       },
       tPrev: performance.now(),
     };
-    // --- Utility: clamp()
-    // Ensures values (like player position) stay within bounds.
 
     function clamp(n: number, min: number, max: number) {
       return Math.min(max, Math.max(min, n));
     }
-
-    // --- Input Handling
-    // Listen for key presses/releases and record them in a Set.
-    // Using a Set lets us track multiple keys at once (diagonal movement, etc.).
 
     const down = (e: KeyboardEvent) => world.keys.add(e.key.toLowerCase());
     const up = (e: KeyboardEvent) => world.keys.delete(e.key.toLowerCase());
     window.addEventListener("keydown", down);
     window.addEventListener("keyup", up);
 
-    // --- Loop
-    // --- Main Animation Loop (frame)
-    // Runs roughly 60 times per second.
-    // 1. Compute delta time (time since last frame).
-    // 2. Update world state based on input and physics.
-    // 3. Render everything to the canvas.
-    // 4. Request the next frame for continuous motion.
-
     function frame(tNow: number) {
-      const dt = Math.min(0.033, (tNow - world.tPrev) / 1000); // cap delta (~30ms)
+      const dt = Math.min(0.033, (tNow - world.tPrev) / 1000);
       world.tPrev = tNow;
       update(dt);
       render();
       if (running) raf = requestAnimationFrame(frame);
     }
 
-    // --- Function: update(dt)
-    // Adjusts player velocity and position based on keys pressed.
-    // Applies delta time so movement speed stays consistent across frame rates.
     function update(dt: number) {
       const { player, keys } = world;
       player.vel.x = 0;
@@ -110,7 +64,6 @@ export default function App() {
       player.pos.x += player.vel.x * dt;
       player.pos.y += player.vel.y * dt;
 
-      // keep inside bounds
       player.pos.x = clamp(player.pos.x, 0, world.size.w() - player.size);
       player.pos.y = clamp(player.pos.y, 0, world.size.h() - player.size);
     }
@@ -138,8 +91,7 @@ export default function App() {
         world.player.size,
         world.player.size
       );
-
-      // simple title
+      // HUD
       ctx.font =
         "16px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto";
       ctx.fillStyle = "#e5e7eb";
@@ -150,9 +102,6 @@ export default function App() {
 
     raf = requestAnimationFrame(frame);
 
-    // --- Cleanup on Unmount
-    // Stop animation loop and remove listeners to avoid memory leaks.
-    // This runs when React unmounts the component.
     return () => {
       running = false;
       cancelAnimationFrame(raf);
@@ -163,12 +112,14 @@ export default function App() {
   }, [message]);
 
   return (
-    <div className="app">
-      <div className="canvas-wrap">
-        <canvas ref={canvasRef} />
-        <div className="hud">
-          <span>Sweet Hearts (Vite)</span>
-          <span>v0.0.1</span>
+    <div className="h-full grid place-items-center bg-[radial-gradient(circle_at_30%_20%,#171a22_0%,#0b0d12_60%)]">
+      <div className="absolute inset-0 pointer-events-none p-2.5 flex justify-between text-sm opacity-90">
+        <span>Sweet Hearts (Vite)</span>
+        <span>v0.0.1</span>
+      </div>
+      <div className="relative w-[min(92vw,900px)] aspect-[16/9] rounded-2xl overflow-hidden outline outline-1 outline-[#2a2f3a] shadow-[0_10px_30px_rgba(0,0,0,0.35)] bg-[#0e1117]">
+        <div className="relative w-full h-full">
+          <canvas ref={canvasRef} className="w-full h-full block" />
         </div>
       </div>
     </div>
