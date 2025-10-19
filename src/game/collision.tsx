@@ -1,0 +1,19 @@
+import type { Enemy, Player } from "./types";
+
+export function aabbOverlap(p: Player, e: Enemy) {
+  const pLeft = p.pos.x;
+  const pRight = p.pos.x + p.size;
+  const pTop = p.pos.y;
+  const pBottom = p.pos.y + p.size;
+
+  const eLeft = e.x;
+  const eRight = e.x + e.size;
+  const eTop = e.y;
+  const eBottom = e.y + e.size;
+
+  return pRight > eLeft && pLeft < eRight && pBottom > eTop && pTop < eBottom;
+}
+
+export function clamp(n: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, n));
+}
