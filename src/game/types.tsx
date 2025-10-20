@@ -1,4 +1,4 @@
-export type Vec2 = { x: number; y: number; size?: number };
+export type Vec2 = { x: number; y: number };
 
 export type Player = {
   pos: Vec2;
@@ -14,11 +14,9 @@ export interface Enemy {
   life?: number;
   size: number;
   speed: number;
-  spawnTime?: number;
-  type?: "chaser" | "patroller" | "charger";
+  type: "chaser" | "patroller" | "charger";
+  damage?: number;
 }
-
-export type GameState = "running" | "paused" | "gameOver";
 
 export type World = {
   ctx: CanvasRenderingContext2D;
@@ -29,9 +27,13 @@ export type World = {
   player: Player;
   enemies: Enemy[];
   tPrev: number;
-  gameState: GameState;
   idle: boolean;
   running: boolean;
   gameOver: boolean;
   onGameOver: () => void;
+  spawnTimer: number;
+  spawnInterval: number;
+  spawningActive: boolean;
+  spawnedCount: number;
+  targetCount: number;
 };

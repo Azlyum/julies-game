@@ -12,7 +12,9 @@ export default function App() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [gameOver, setGameOver] = useState(false);
   const [gameIdle, setGameIdle] = useState(true);
+  const [spawningActive, setSpawningActive] = useState(true);
   const [runId, setRunId] = useState(0); // to force re-render on restart
+  const CreateWorldRef = useRef(createWorld).current;
 
   useEffect(() => {
     const canvas = canvasRef.current!;
@@ -21,7 +23,10 @@ export default function App() {
     const dpr = computeDPR();
     fitCanvas(canvas, ctx, dpr);
 
-    const world = createWorld(canvas, ctx, dpr);
+    const world = CreateWorldRef(canvas, ctx, dpr);
+    world.idle = gameIdle;
+    world.running = !gameIdle;
+    world.spawningActive = !gameIdle;
     world.onGameOver = () => setGameOver(true);
 
     const detachResize = attachResize(canvas, ctx, () => computeDPR());
@@ -33,7 +38,7 @@ export default function App() {
       detachResize();
       detachKeyboard();
     };
-  }, [runId]);
+  }, [CreateWorldRef, gameIdle, runId]);
 
   return (
     <div className="h-full grid place-items-center bg-[radial-gradient(circle_at_30%_20%,#171a22_0%,#0b0d12_60%)]">
@@ -41,13 +46,13 @@ export default function App() {
         <div className="relative w-full h-full">
           <canvas ref={canvasRef} className="w-full h-full block" />
         </div>
-        {gameIdle && (
+        {gameIdle && spawningActive && (
           <Card
             title={"Wiener Run"}
             message={"For Julie ❤️."}
             onRestart={() => {
               setGameIdle(false);
-
+              setSpawningActive(true);
               console.log("Starting game...", runId);
             }}
             buttonText="Start"
@@ -60,6 +65,7 @@ export default function App() {
             onRestart={() => {
               setRunId((prev) => prev + 1);
               setGameOver(false);
+              setSpawningActive(true);
               console.log("Restarting game...", runId);
             }}
             buttonText="Restart"

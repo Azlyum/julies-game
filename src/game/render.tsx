@@ -30,11 +30,4 @@ export function render(world: World) {
   ctx.font = "16px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto";
   ctx.fillStyle = "#94a3b8";
   ctx.fillText("Move: WASD / Arrow Keys", 12, h - 12);
-
-  if (world.gameState === "gameOver") {
-    ctx.fillStyle = "#e5e7eb";
-    ctx.font =
-      "bold 28px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto";
-    ctx.fillText("Game Over", w / 2 - 80, h / 2);
-  }
 }

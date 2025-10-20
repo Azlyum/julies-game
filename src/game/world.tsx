@@ -1,13 +1,10 @@
 import type { World } from "./types";
 import {
-  ENEMY_COUNT,
-  ENEMY_SIZE,
   PLAYER_SIZE,
   PLAYER_SPEED,
-  ENEMY_SPEED,
   PLAYER_LIFE,
-  ENEMY_TICK_INTERVAL,
-  ENEMY_SPAWN_MARGIN,
+  ENEMY_SPAWN_INTERVAL,
+  ENEMY_COUNT,
 } from "./constants";
 
 export function createWorld(
@@ -33,26 +30,16 @@ export function createWorld(
     },
     enemies: [],
     tPrev: performance.now(),
-    gameState: "running" as "running" | "paused" | "gameOver",
-    idle: false,
-    running: true,
+    idle: true,
+    running: false,
     gameOver: false,
     onGameOver: () => {},
+    spawnTimer: 0,
+    spawnInterval: ENEMY_SPAWN_INTERVAL,
+    spawningActive: false,
+    spawnedCount: 0,
+    targetCount: ENEMY_COUNT,
   };
-
-  // static enemies (created once)
-  for (let i = 0; i < ENEMY_COUNT; i++) {
-    const x = Math.random() * (world.size.w() - ENEMY_SIZE);
-    const y = Math.random() * (world.size.h() - ENEMY_SIZE);
-    if (ENEMY_SPAWN_MARGIN !== new Date().getTime() % ENEMY_TICK_INTERVAL) {
-      world.enemies.push({
-        pos: { x, y },
-        vel: { x: 0, y: 0 },
-        size: ENEMY_SIZE,
-        speed: ENEMY_SPEED,
-      });
-    }
-  }
 
   return world;
 }
