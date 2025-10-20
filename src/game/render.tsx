@@ -23,7 +23,7 @@ export function render(world: World) {
   // enemies
   ctx.fillStyle = "#f87171";
   for (const e of world.enemies) {
-    ctx.fillRect(e.x, e.y, e.size, e.size);
+    ctx.fillRect(e.pos.x, e.pos.y, e.size, e.size);
   }
 
   // HUD hint
@@ -31,7 +31,7 @@ export function render(world: World) {
   ctx.fillStyle = "#94a3b8";
   ctx.fillText("Move: WASD / Arrow Keys", 12, h - 12);
 
-  if (world.gameOver) {
+  if (world.gameState === "gameOver") {
     ctx.fillStyle = "#e5e7eb";
     ctx.font =
       "bold 28px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto";

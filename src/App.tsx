@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./index.css";
 import { computeDPR, fitCanvas, attachResize } from "./game/resize";
 import { attachKeyboard } from "./game/input";
@@ -11,6 +11,7 @@ import Card from "./component/card";
 export default function App() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [gameOver, setGameOver] = useState(false);
+  const [gameIdle, setGameIdle] = useState(true);
   const [runId, setRunId] = useState(0); // to force re-render on restart
 
   useEffect(() => {
@@ -40,6 +41,18 @@ export default function App() {
         <div className="relative w-full h-full">
           <canvas ref={canvasRef} className="w-full h-full block" />
         </div>
+        {gameIdle && (
+          <Card
+            title={"Wiener Run"}
+            message={"For Julie ❤️."}
+            onRestart={() => {
+              setGameIdle(false);
+
+              console.log("Starting game...", runId);
+            }}
+            buttonText="Start"
+          />
+        )}
         {gameOver && (
           <Card
             title={"Game Over!"}

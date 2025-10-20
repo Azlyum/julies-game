@@ -6,10 +6,10 @@ export function collision(p: Player, e: Enemy) {
   const pTop = p.pos.y;
   const pBottom = p.pos.y + p.size;
 
-  const eLeft = e.x;
-  const eRight = e.x + e.size;
-  const eTop = e.y;
-  const eBottom = e.y + e.size;
+  const eLeft = e.pos.x;
+  const eRight = e.pos.x + e.size;
+  const eTop = e.pos.y;
+  const eBottom = e.pos.y + e.size;
 
   return pRight > eLeft && pLeft < eRight && pBottom > eTop && pTop < eBottom;
 }
