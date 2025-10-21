@@ -6,6 +6,7 @@ export type Player = {
   life: number;
   speed: number;
   size: number;
+  barked: boolean;
 };
 
 export interface Enemy {
@@ -16,6 +17,7 @@ export interface Enemy {
   speed: number;
   type: "chaser" | "patroller" | "charger";
   damage?: number;
+  feared: boolean;
 }
 
 export type World = {

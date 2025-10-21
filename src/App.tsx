@@ -50,7 +50,7 @@ export default function App() {
           <Card
             title={"Wiener Run"}
             message={"For Julie ❤️."}
-            onRestart={() => {
+            onButtonClick={() => {
               setGameIdle(false);
               setSpawningActive(true);
               console.log("Starting game...", runId);
@@ -62,7 +62,7 @@ export default function App() {
           <Card
             title={"Game Over!"}
             message={"Thanks for playing!"}
-            onRestart={() => {
+            onButtonClick={() => {
               setRunId((prev) => prev + 1);
               setGameOver(false);
               setSpawningActive(true);

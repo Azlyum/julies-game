@@ -27,6 +27,7 @@ export function createWorld(
       speed: PLAYER_SPEED,
       size: PLAYER_SIZE,
       life: PLAYER_LIFE,
+      barked: false,
     },
     enemies: [],
     tPrev: performance.now(),
