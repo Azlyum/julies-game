@@ -17,7 +17,7 @@ export function updateCompanion(world: World, dt: number) {
     const nx = dirX / dist;
     const ny = dirY / dist;
 
-    const followSpeed = c.speed * 0.8;
+    const followSpeed = c.speed * 1.2;
     c.pos.x += nx * followSpeed * dt;
     c.pos.y += ny * followSpeed * dt;
   }
