@@ -1,0 +1,80 @@
+import { ENEMY_SIZE, ENEMY_SPEED, ENEMY_DAMAGE } from "../constants";
+import type { World } from "../types";
+
+export function spawnAndRamp(world: World, dt: number) {
+  if (!(world.running && !world.idle && world.spawningActive)) return;
+
+  const { player } = world;
+
+  // ensure companion exists
+  if (world.companion.length === 0) {
+    world.companion.push({
+      pos: { x: player.pos.x - 30, y: player.pos.y - 30 },
+      vel: { x: 0, y: 0 },
+      size: player.size / 1.5,
+      speed: player.speed / 1,
+      following: true,
+    });
+  }
+
+  // timers / score
+  world.timeAlive += dt;
+  world.spawnTimer += dt;
+  world.score += dt * 10;
+
+  // difficulty ramp
+  if (world.timeAlive > world.nextRampTime) {
+    world.nextRampTime += 30;
+    world.targetCount += 10;
+    world.spawnInterval *= 0.9;
+  }
+
+  // spawn enemy if interval hit
+  if (
+    world.spawnTimer >= world.spawnInterval &&
+    world.spawnedCount < world.targetCount
+  ) {
+    const enemyTypes: Array<"chaser" | "patroller" | "charger"> = [
+      "chaser",
+      "patroller",
+      "charger",
+    ];
+    const spawnType = enemyTypes[Math.floor(Math.random() * enemyTypes.length)];
+
+    // choose edge
+    const edge = Math.floor(Math.random() * 4);
+    const spawnPos = { x: 0, y: 0 };
+
+    switch (edge) {
+      case 0: // top
+        spawnPos.x = Math.random() * world.size.w();
+        spawnPos.y = -ENEMY_SIZE[spawnType];
+        break;
+      case 1: // right
+        spawnPos.x = world.size.w() + ENEMY_SIZE[spawnType];
+        spawnPos.y = Math.random() * world.size.h();
+        break;
+      case 2: // bottom
+        spawnPos.x = Math.random() * world.size.w();
+        spawnPos.y = world.size.h() + ENEMY_SIZE[spawnType];
+        break;
+      case 3: // left
+        spawnPos.x = -ENEMY_SIZE[spawnType];
+        spawnPos.y = Math.random() * world.size.h();
+        break;
+    }
+
+    world.enemies.push({
+      pos: spawnPos,
+      vel: { x: 0, y: 0 },
+      size: ENEMY_SIZE[spawnType],
+      speed: ENEMY_SPEED[spawnType],
+      damage: ENEMY_DAMAGE[spawnType],
+      type: spawnType,
+      feared: false,
+    });
+
+    world.spawnedCount++;
+    world.spawnTimer = 0;
+  }
+}

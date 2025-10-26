@@ -1,11 +1,11 @@
-import type { World } from "./types";
+import type { World } from "../types";
 import {
   PLAYER_SIZE,
   PLAYER_SPEED,
   PLAYER_LIFE,
   ENEMY_SPAWN_INTERVAL,
   ENEMY_COUNT,
-} from "./constants";
+} from "../constants";
 
 export function createWorld(
   canvas: HTMLCanvasElement,
@@ -21,6 +21,7 @@ export function createWorld(
       h: () => canvas.height / dpr,
     },
     keys: new Set(),
+    previousKeys: new Set(),
     player: {
       pos: { x: 180, y: 180 },
       vel: { x: 0, y: 0 },
@@ -28,7 +29,12 @@ export function createWorld(
       size: PLAYER_SIZE,
       life: PLAYER_LIFE,
       barked: false,
+      barkedRecently: false,
+      barkedRadius: 0,
+      barkedDisplayTimer: 0,
+      barkedTimer: 0,
     },
+    companion: [],
     enemies: [],
     tPrev: performance.now(),
     idle: true,
@@ -40,6 +46,9 @@ export function createWorld(
     spawningActive: false,
     spawnedCount: 0,
     targetCount: ENEMY_COUNT,
+    score: 0,
+    timeAlive: 0,
+    nextRampTime: 60,
   };
 
   return world;

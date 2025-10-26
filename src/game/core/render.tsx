@@ -1,4 +1,4 @@
-import type { World } from "./types";
+import type { World } from "../types";
 import { drawGrid } from "./grid";
 
 export function render(world: World) {
@@ -24,6 +24,23 @@ export function render(world: World) {
   ctx.fillStyle = "#f87171";
   for (const e of world.enemies) {
     ctx.fillRect(e.pos.x, e.pos.y, e.size, e.size);
+  }
+
+  // companion
+  ctx.fillStyle = "#34d399";
+  for (const c of world.companion) {
+    ctx.fillRect(c.pos.x, c.pos.y, c.size, c.size);
+  }
+
+  // player barked
+  if (world.player.barkedDisplayTimer > 0) {
+    const size = world.player.size;
+    const cx = world.player.pos.x + size / 2;
+    const cy = world.player.pos.y - size;
+    ctx.fillStyle = "#fff";
+    ctx.beginPath();
+    ctx.arc(cx, cy, size * 0.6, 0, Math.PI * 2);
+    ctx.fill();
   }
 
   // HUD hint
