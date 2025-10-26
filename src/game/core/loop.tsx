@@ -1,5 +1,5 @@
-import type { World } from "./types";
-import { MAX_DT } from "./constants";
+import { MAX_DT } from "../constants";
+import type { World } from "../types";
 
 export function startLoop(
   world: World,

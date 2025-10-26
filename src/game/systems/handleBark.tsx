@@ -3,7 +3,6 @@ import type { World } from "../types";
 export function handleBark(world: World, dt: number) {
   const { player, enemies } = world;
 
-  // trigger bark if pressed and not on cooldown
   if (player.barked && !player.barkedRecently) {
     player.barked = false;
     player.barkedRecently = true;
@@ -16,12 +15,10 @@ export function handleBark(world: World, dt: number) {
     }, 5000);
   }
 
-  // visual timer (for render flash)
   if (player.barkedDisplayTimer > 0) {
     player.barkedDisplayTimer -= dt;
   }
 
-  // cooldown timer (for UI / feel)
   if (player.barkedTimer > 0) {
     player.barkedTimer -= dt;
   }

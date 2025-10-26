@@ -1,4 +1,4 @@
-import { GRID_SPACING } from "./constants";
+import { GRID_SPACING } from "../constants";
 
 export function drawGrid(
   ctx: CanvasRenderingContext2D,

@@ -13,7 +13,7 @@ export default function App() {
   const [gameOver, setGameOver] = useState(false);
   const [gameIdle, setGameIdle] = useState(true);
   const [spawningActive, setSpawningActive] = useState(true);
-  const [runId, setRunId] = useState(0); // to force re-render on restart
+  const [runId, setRunId] = useState(0);
   const CreateWorldRef = useRef(createWorld).current;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const worldRef = useRef<any>(null);

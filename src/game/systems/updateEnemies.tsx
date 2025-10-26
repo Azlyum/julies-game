@@ -7,7 +7,6 @@ export function updateEnemies(world: World, dt: number) {
     const e = enemies[i];
 
     if (e.feared) {
-      // run away
       const dirX = e.pos.x - player.pos.x;
       const dirY = e.pos.y - player.pos.y;
       const len = Math.hypot(dirX, dirY) || 1;
@@ -16,7 +15,6 @@ export function updateEnemies(world: World, dt: number) {
       e.pos.x += nx * e.speed * dt * 2;
       e.pos.y += ny * e.speed * dt * 2;
     } else {
-      // chase
       const dirX = player.pos.x - e.pos.x;
       const dirY = player.pos.y - e.pos.y;
       const len = Math.hypot(dirX, dirY) || 1;
@@ -26,7 +24,6 @@ export function updateEnemies(world: World, dt: number) {
       e.pos.y += ny * e.speed * dt;
     }
 
-    // offscreen cleanup
     if (
       e.pos.x < -e.size ||
       e.pos.y < -e.size ||

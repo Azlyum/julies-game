@@ -6,7 +6,6 @@ export function spawnAndRamp(world: World, dt: number) {
 
   const { player } = world;
 
-  // ensure companion exists
   if (world.companion.length === 0) {
     world.companion.push({
       pos: { x: player.pos.x - 30, y: player.pos.y - 30 },
@@ -17,19 +16,16 @@ export function spawnAndRamp(world: World, dt: number) {
     });
   }
 
-  // timers / score
   world.timeAlive += dt;
   world.spawnTimer += dt;
   world.score += dt * 10;
 
-  // difficulty ramp
   if (world.timeAlive > world.nextRampTime) {
     world.nextRampTime += 30;
     world.targetCount += 10;
     world.spawnInterval *= 0.9;
   }
 
-  // spawn enemy if interval hit
   if (
     world.spawnTimer >= world.spawnInterval &&
     world.spawnedCount < world.targetCount
@@ -41,24 +37,23 @@ export function spawnAndRamp(world: World, dt: number) {
     ];
     const spawnType = enemyTypes[Math.floor(Math.random() * enemyTypes.length)];
 
-    // choose edge
     const edge = Math.floor(Math.random() * 4);
     const spawnPos = { x: 0, y: 0 };
 
     switch (edge) {
-      case 0: // top
+      case 0:
         spawnPos.x = Math.random() * world.size.w();
         spawnPos.y = -ENEMY_SIZE[spawnType];
         break;
-      case 1: // right
+      case 1:
         spawnPos.x = world.size.w() + ENEMY_SIZE[spawnType];
         spawnPos.y = Math.random() * world.size.h();
         break;
-      case 2: // bottom
+      case 2:
         spawnPos.x = Math.random() * world.size.w();
         spawnPos.y = world.size.h() + ENEMY_SIZE[spawnType];
         break;
-      case 3: // left
+      case 3:
         spawnPos.x = -ENEMY_SIZE[spawnType];
         spawnPos.y = Math.random() * world.size.h();
         break;
