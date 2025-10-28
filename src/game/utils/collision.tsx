@@ -1,4 +1,4 @@
-import type { Enemy, Player } from "./types";
+import type { Player, Enemy } from "../types";
 
 export function collision(p: Player, e: Enemy) {
   const pLeft = p.pos.x;

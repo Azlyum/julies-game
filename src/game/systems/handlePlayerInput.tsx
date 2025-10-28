@@ -1,5 +1,6 @@
 import type { World } from "../types";
 import { clamp } from "../utils/collision";
+import { updateCompanion } from "./updateCompanion";
 
 export function handlePlayerInput(world: World, dt: number) {
   const { player, keys } = world;
@@ -13,7 +14,6 @@ export function handlePlayerInput(world: World, dt: number) {
 
   const justPressed = (key: string) =>
     world.keys.has(key) && !world.previousKeys.has(key);
-
   if (
     (justPressed("b") ||
       justPressed(" ") ||
@@ -22,6 +22,12 @@ export function handlePlayerInput(world: World, dt: number) {
     !player.barkedRecently
   ) {
     player.barked = true;
+  }
+
+  if (world.player.vel.x > 0) {
+    world.player.facing = 1;
+  } else if (world.player.vel.x < 0) {
+    world.player.facing = -1;
   }
 
   player.pos.x = clamp(
@@ -34,4 +40,5 @@ export function handlePlayerInput(world: World, dt: number) {
     0,
     world.size.h() - player.size
   );
+  updateCompanion(world, dt);
 }

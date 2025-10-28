@@ -8,31 +8,73 @@ export function render(world: World) {
 
   ctx.clearRect(0, 0, w, h);
 
-  // grid
   drawGrid(ctx, w, h);
 
-  // player
   ctx.fillStyle = "#7dd3fc";
-  ctx.fillRect(
-    world.player.pos.x,
-    world.player.pos.y,
-    world.player.size,
-    world.player.size
-  );
+  const players = Array.isArray(world.player) ? world.player : [world.player];
+  for (const p of players) {
+    if (!world.playerSprite.loaded) continue;
+    const sprite = world.playerSprite;
+    const frameIndex = p.animFrame ?? 0;
+    const sx = frameIndex * sprite.frameW;
+    const sy = 0;
+    const sw = sprite.frameW;
+    const sh = sprite.frameH;
+    const scale = 0.03;
+    const dw = sw * scale;
+    const dh = sh * scale;
+    const drawX = p.pos.x - dw / 2;
+    const drawY = p.pos.y - dh / 2;
+    const ctx = world.ctx;
+    ctx.save();
+    if (p.facingLeft) {
+      ctx.translate(drawX + dw / 2, drawY + dh / 2);
+      ctx.scale(-1, 1);
+      ctx.drawImage(sprite.image, sx, sy, sw, sh, -dw / 2, -dh / 2, dw, dh);
+    } else {
+      ctx.drawImage(sprite.image, sx, sy, sw, sh, drawX, drawY, dw, dh);
+    }
 
-  // enemies
+    ctx.restore();
+  }
+
   ctx.fillStyle = "#f87171";
   for (const e of world.enemies) {
     ctx.fillRect(e.pos.x, e.pos.y, e.size, e.size);
   }
 
-  // companion
-  ctx.fillStyle = "#34d399";
   for (const c of world.companion) {
-    ctx.fillRect(c.pos.x, c.pos.y, c.size, c.size);
+    if (!world.companionSprite.loaded) continue;
+
+    const sprite = world.companionSprite;
+
+    const frameIndex = c.animFrame ?? 0;
+    const sx = frameIndex * sprite.frameW;
+    const sy = 0;
+    const sw = sprite.frameW;
+    const sh = sprite.frameH;
+
+    const scale = 0.03;
+    const dw = sw * scale;
+    const dh = sh * scale;
+
+    const drawX = c.pos.x - dw / 2;
+    const drawY = c.pos.y - dh / 2;
+
+    const ctx = world.ctx;
+    ctx.save();
+
+    if (c.facingLeft) {
+      ctx.translate(drawX + dw / 2, drawY + dh / 2);
+      ctx.scale(-1, 1);
+      ctx.drawImage(sprite.image, sx, sy, sw, sh, -dw / 2, -dh / 2, dw, dh);
+    } else {
+      ctx.drawImage(sprite.image, sx, sy, sw, sh, drawX, drawY, dw, dh);
+    }
+
+    ctx.restore();
   }
 
-  // player barked
   if (world.player.barkedDisplayTimer > 0) {
     const size = world.player.size;
     const cx = world.player.pos.x + size / 2;
@@ -43,7 +85,6 @@ export function render(world: World) {
     ctx.fill();
   }
 
-  // HUD hint
   ctx.font = "16px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto";
   ctx.fillStyle = "#94a3b8";
   ctx.fillText("Move: WASD / Arrow Keys", 12, h - 12);

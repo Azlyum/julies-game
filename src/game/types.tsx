@@ -11,6 +11,9 @@ export type Player = {
   barkedTimer: number;
   barkedDisplayTimer: number;
   barkedRadius: number;
+  animFrame: number;
+  animTimer: number;
+  facing: number;
 };
 
 export type Companion = {
@@ -19,8 +22,11 @@ export type Companion = {
   size: number;
   speed: number;
   following: boolean;
+  facingLeft: boolean;
+  animFrame: number;
+  animTimer: number;
+  side: number;
 };
-
 export interface Enemy {
   pos: Vec2;
   vel: Vec2;
@@ -55,4 +61,16 @@ export type World = {
   spawnedCount: number;
   targetCount: number;
   score: number;
+  companionSprite: {
+    image: HTMLImageElement;
+    frameW: number;
+    frameH: number;
+    loaded: boolean;
+  };
+  playerSprite: {
+    image: HTMLImageElement;
+    frameW: number;
+    frameH: number;
+    loaded: boolean;
+  };
 };

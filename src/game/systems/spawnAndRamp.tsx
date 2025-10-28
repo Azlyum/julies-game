@@ -8,11 +8,18 @@ export function spawnAndRamp(world: World, dt: number) {
 
   if (world.companion.length === 0) {
     world.companion.push({
-      pos: { x: player.pos.x - 30, y: player.pos.y - 30 },
-      vel: { x: 0, y: 0 },
-      size: player.size / 1.5,
-      speed: player.speed / 1,
-      following: true,
+      pos: { x: player.pos.x - 20, y: player.pos.y - 10 },
+      speed: player.speed / 3.5,
+      animFrame: 0,
+      animTimer: 0,
+      facingLeft: false,
+      vel: {
+        x: 0,
+        y: 0,
+      },
+      size: 32,
+      following: false,
+      side: 0,
     });
   }
 
