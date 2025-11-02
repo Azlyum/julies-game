@@ -67,10 +67,24 @@ export type World = {
     frameH: number;
     loaded: boolean;
   };
-  playerSprite: {
-    image: HTMLImageElement;
-    frameW: number;
-    frameH: number;
-    loaded: boolean;
+  playerSprites: {
+    idle: {
+      image: HTMLImageElement;
+      frameW: number;
+      frameH: number;
+      loaded: boolean;
+    };
+    run: {
+      image: HTMLImageElement;
+      frameW: number;
+      frameH: number;
+      loaded: boolean;
+    };
+    bark: {
+      image: HTMLImageElement;
+      frameW: number;
+      frameH: number;
+      loaded: boolean;
+    };
   };
 };

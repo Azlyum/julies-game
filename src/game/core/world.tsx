@@ -6,9 +6,14 @@ export function createWorld(
   dpr: number
 ): World {
   const companionImg = new Image();
-  const playerImg = new Image();
+  const playerIdle = new Image();
+  const playerRun = new Image();
+  const playerBark = new Image();
+
   companionImg.src = "./sprites/julieSprite.png";
-  playerImg.src = "./sprites/idle.png";
+  playerIdle.src = "./sprites/idle.png";
+  playerRun.src = "./sprites/dogRunning.png";
+  playerBark.src = "./sprites/barking.png";
 
   const world: World = {
     canvas,
@@ -31,7 +36,7 @@ export function createWorld(
       barkedDisplayTimer: 0,
       barkedTimer: 0,
       barkedRadius: 0,
-      facing: 1,
+      facing: 0,
       animFrame: 0,
       animTimer: 0,
     },
@@ -57,19 +62,39 @@ export function createWorld(
       loaded: false,
     },
 
-    playerSprite: {
-      image: playerImg,
-      frameW: 1024,
-      frameH: 1024,
-      loaded: false,
+    playerSprites: {
+      idle: {
+        image: playerIdle,
+        frameW: 1024,
+        frameH: 1024,
+        loaded: false,
+      },
+      run: {
+        image: playerRun,
+        frameW: 1024,
+        frameH: 1024,
+        loaded: false,
+      },
+      bark: {
+        image: playerBark,
+        frameW: 1024,
+        frameH: 1024,
+        loaded: false,
+      },
     },
   };
 
   companionImg.onload = () => {
     world.companionSprite.loaded = true;
   };
-  playerImg.onload = () => {
-    world.playerSprite.loaded = true;
+  playerIdle.onload = () => {
+    world.playerSprites.idle.loaded = true;
+  };
+  playerRun.onload = () => {
+    world.playerSprites.run.loaded = true;
+  };
+  playerBark.onload = () => {
+    world.playerSprites.bark.loaded = true;
   };
 
   return world;

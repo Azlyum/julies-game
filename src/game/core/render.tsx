@@ -12,27 +12,29 @@ export function render(world: World) {
 
   ctx.fillStyle = "#7dd3fc";
   const players = Array.isArray(world.player) ? world.player : [world.player];
+  //running
   for (const p of players) {
-    if (!world.playerSprite.loaded) continue;
-    const sprite = world.playerSprite;
+    if (!world.playerSprites.run.loaded) continue;
+    const sprite = world.playerSprites.run;
     const frameIndex = p.animFrame ?? 0;
     const sx = frameIndex * sprite.frameW;
     const sy = 0;
     const sw = sprite.frameW;
     const sh = sprite.frameH;
-    const scale = 0.03;
+    const scale = 0.05;
     const dw = sw * scale;
     const dh = sh * scale;
     const drawX = p.pos.x - dw / 2;
     const drawY = p.pos.y - dh / 2;
     const ctx = world.ctx;
     ctx.save();
-    if (p.facingLeft) {
+
+    if (p.facing === 1) {
+      ctx.drawImage(sprite.image, sx, sy, sw, sh, drawX, drawY, dw, dh);
+    } else {
       ctx.translate(drawX + dw / 2, drawY + dh / 2);
       ctx.scale(-1, 1);
       ctx.drawImage(sprite.image, sx, sy, sw, sh, -dw / 2, -dh / 2, dw, dh);
-    } else {
-      ctx.drawImage(sprite.image, sx, sy, sw, sh, drawX, drawY, dw, dh);
     }
 
     ctx.restore();
