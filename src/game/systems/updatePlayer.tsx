@@ -2,7 +2,7 @@ import type { World } from "../types";
 import { clamp } from "../utils/collision";
 import { updateCompanion } from "./updateCompanion";
 
-export function handlePlayerInput(world: World, dt: number) {
+export function updatePlayer(world: World, dt: number) {
   const { player, keys } = world;
 
   player.vel.x = 0;
@@ -22,6 +22,14 @@ export function handlePlayerInput(world: World, dt: number) {
     !player.barkedRecently
   ) {
     player.barked = true;
+  }
+
+  const frameDuration = 0.12;
+  player.animTimer += dt;
+
+  if (player.animTimer >= frameDuration) {
+    player.animTimer -= frameDuration;
+    player.animFrame = (player.animFrame + 1) % 4;
   }
 
   if (world.player.vel.x > 0) {

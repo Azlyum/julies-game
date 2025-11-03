@@ -1,5 +1,5 @@
 import type { World } from "../types";
-import { drawGrid } from "./grid";
+// import { drawGrid } from "./grid";
 
 export function render(world: World) {
   const { ctx } = world;
@@ -8,7 +8,7 @@ export function render(world: World) {
 
   ctx.clearRect(0, 0, w, h);
 
-  drawGrid(ctx, w, h);
+  // drawGrid(ctx, w, h);
 
   ctx.fillStyle = "#7dd3fc";
   const players = Array.isArray(world.player) ? world.player : [world.player];
