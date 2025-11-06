@@ -1,3 +1,4 @@
+import { BARK_RADIUS } from "../constants";
 import type { World } from "../types";
 
 export function handleBark(world: World, dt: number) {
@@ -8,11 +9,16 @@ export function handleBark(world: World, dt: number) {
     player.barkedRecently = true;
     player.barkedDisplayTimer = 0.2;
     player.barkedTimer = 5;
-    for (const e of enemies) e.feared = true;
+    for (const e of enemies) {
+      const distance = Math.hypot(e.pos.x - player.pos.x, e.pos.y - player.pos.y)
+      if (distance <= BARK_RADIUS)
+        e.feared = true;
+    }
+
 
     setTimeout(() => {
       player.barkedRecently = false;
-    }, 5000);
+    }, 1200);
   }
 
   if (player.barkedDisplayTimer > 0) {

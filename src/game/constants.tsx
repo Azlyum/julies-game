@@ -12,7 +12,5 @@ export const ENEMY_DAMAGE = { chaser: 1, patroller: 2, charger: 3 };
 
 export const MAX_DT = 0.033; // 33ms clamp
 
-export const BARK_RADIUS = 100;
-export const BARK_COOLDOWN = 1.2;
-export const FEAR_DURATION = 0.9;
+export const BARK_RADIUS = 140;
 export const FEAR_SPEED_MULT = 1.5;
