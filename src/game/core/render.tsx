@@ -12,10 +12,10 @@ export function render(world: World) {
 
   ctx.fillStyle = "#7dd3fc";
   const players = Array.isArray(world.player) ? world.player : [world.player];
-  //running
   for (const p of players) {
     if (!world.playerSprites.run.loaded) continue;
     const sprite = world.playerSprites.run;
+    const barkedSprite = world.playerSprites.bark;
     const frameIndex = p.animFrame ?? 0;
     const sx = frameIndex * sprite.frameW;
     const sy = 0;
@@ -29,7 +29,10 @@ export function render(world: World) {
     const ctx = world.ctx;
     ctx.save();
 
-    if (p.facing === 1) {
+    if (p.barked) {
+      ctx.drawImage(barkedSprite.image, sx, sy, sw, sh, drawX, drawY, dw, dh)
+    }
+    else if (p.facing === 1) {
       ctx.drawImage(sprite.image, sx, sy, sw, sh, drawX, drawY, dw, dh);
     } else {
       ctx.translate(drawX + dw / 2, drawY + dh / 2);
