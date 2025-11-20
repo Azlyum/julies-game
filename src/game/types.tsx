@@ -10,6 +10,7 @@ export type Player = {
   barkedRecently: boolean;
   barkedTimer: number;
   barkedDisplayTimer: number;
+  isBarking: boolean;
   animFrame: number;
   animTimer: number;
   facing: number;

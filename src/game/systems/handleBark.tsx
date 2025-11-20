@@ -10,11 +10,12 @@ export function handleBark(world: World, dt: number) {
     player.barkedDisplayTimer = 0.2;
     player.barkedTimer = 5;
     for (const e of enemies) {
-      const distance = Math.hypot(e.pos.x - player.pos.x, e.pos.y - player.pos.y)
-      if (distance <= BARK_RADIUS)
-        e.feared = true;
+      const distance = Math.hypot(
+        e.pos.x - player.pos.x,
+        e.pos.y - player.pos.y
+      );
+      if (distance <= BARK_RADIUS) e.feared = true;
     }
-
 
     setTimeout(() => {
       player.barkedRecently = false;

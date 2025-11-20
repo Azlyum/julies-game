@@ -29,10 +29,23 @@ export function render(world: World) {
     const ctx = world.ctx;
     ctx.save();
 
-    if (p.barked) {
-      ctx.drawImage(barkedSprite.image, sx, sy, sw, sh, drawX, drawY, dw, dh)
-    }
-    else if (p.facing === 1) {
+    if (p.barkedDisplayTimer > 0 && p.facing === 1) {
+      ctx.drawImage(barkedSprite.image, sx, sy, sw, sh, drawX, drawY, dw, dh);
+    } else if (p.facing === -1 && p.barkedDisplayTimer > 0) {
+      ctx.translate(drawX + dw / 2, drawY + dh / 2);
+      ctx.scale(-1, 1);
+      ctx.drawImage(
+        barkedSprite.image,
+        sx,
+        sy,
+        sw,
+        sh,
+        -dw / 2,
+        -dh / 2,
+        dw,
+        dh
+      );
+    } else if (p.facing === 1) {
       ctx.drawImage(sprite.image, sx, sy, sw, sh, drawX, drawY, dw, dh);
     } else {
       ctx.translate(drawX + dw / 2, drawY + dh / 2);
@@ -80,15 +93,15 @@ export function render(world: World) {
     ctx.restore();
   }
 
-  if (world.player.barkedDisplayTimer > 0) {
-    const size = world.player.size;
-    const cx = world.player.pos.x + size / 2;
-    const cy = world.player.pos.y - size;
-    ctx.fillStyle = "#fff";
-    ctx.beginPath();
-    ctx.arc(cx, cy, size * 0.6, 0, Math.PI * 2);
-    ctx.fill();
-  }
+  // if (world.player.barkedDisplayTimer > 0) {
+  //   const size = world.player.size;
+  //   const cx = world.player.pos.x + size / 2;
+  //   const cy = world.player.pos.y - size;
+  //   ctx.fillStyle = "#fff";
+  //   ctx.beginPath();
+  //   ctx.arc(cx, cy, size * 0.6, 0, Math.PI * 2);
+  //   ctx.fill();
+  // }
 
   ctx.font = "16px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto";
   ctx.fillStyle = "#94a3b8";
