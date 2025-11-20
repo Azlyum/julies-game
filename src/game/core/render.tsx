@@ -5,6 +5,7 @@ export function render(world: World) {
   const { ctx } = world;
   const w = world.size.w();
   const h = world.size.h();
+  const barkReady = world.player.barkedDisplayTimer <= 0;
 
   ctx.clearRect(0, 0, w, h);
 
@@ -56,9 +57,18 @@ export function render(world: World) {
     ctx.restore();
   }
 
-  ctx.fillStyle = "#f87171";
+  // ctx. = "#00f91dff";
   for (const e of world.enemies) {
-    ctx.fillRect(e.pos.x, e.pos.y, e.size, e.size);
+    if (e.type === "chaser") {
+      ctx.fillStyle = "#48ff00ae";
+      ctx.fillRect(e.pos.x, e.pos.y, e.size, e.size);
+    } else if (e.type === "patroller") {
+      ctx.fillStyle = "#ff800088";
+      ctx.fillRect(e.pos.x, e.pos.y, e.size, e.size);
+    } else if (e.type === "hulk") {
+      ctx.fillStyle = "#b300ffa5";
+      ctx.fillRect(e.pos.x, e.pos.y, e.size, e.size);
+    }
   }
 
   for (const c of world.companion) {
@@ -82,6 +92,15 @@ export function render(world: World) {
     const ctx = world.ctx;
     ctx.save();
 
+    if (barkReady && !world.player.barkedRecently) {
+      const glowColor = "#ffeea8";
+      const glowIntensity = (Math.sin(c.glowPhase) + 1) / 2;
+      ctx.shadowColor = glowColor;
+      ctx.shadowBlur = 20 + glowIntensity * 5;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 0;
+    }
+
     if (c.facingLeft) {
       ctx.translate(drawX + dw / 2, drawY + dh / 2);
       ctx.scale(-1, 1);
@@ -92,16 +111,6 @@ export function render(world: World) {
 
     ctx.restore();
   }
-
-  // if (world.player.barkedDisplayTimer > 0) {
-  //   const size = world.player.size;
-  //   const cx = world.player.pos.x + size / 2;
-  //   const cy = world.player.pos.y - size;
-  //   ctx.fillStyle = "#fff";
-  //   ctx.beginPath();
-  //   ctx.arc(cx, cy, size * 0.6, 0, Math.PI * 2);
-  //   ctx.fill();
-  // }
 
   ctx.font = "16px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto";
   ctx.fillStyle = "#94a3b8";

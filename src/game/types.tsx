@@ -26,6 +26,8 @@ export type Companion = {
   animFrame: number;
   animTimer: number;
   side: number;
+  glowPhase: number;
+  trailPositions: [x: number, y: number, intensity: number, life: number];
 };
 export interface Enemy {
   pos: Vec2;
@@ -33,7 +35,7 @@ export interface Enemy {
   life?: number;
   size: number;
   speed: number;
-  type: "chaser" | "patroller" | "charger";
+  type: "chaser" | "patroller" | "hulk";
   damage?: number;
   feared: boolean;
 }

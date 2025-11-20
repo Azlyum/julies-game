@@ -20,6 +20,8 @@ export function spawnAndRamp(world: World, dt: number) {
       size: 32,
       following: false,
       side: 0,
+      trailPositions: [0, 0, 0, 0],
+      glowPhase: 0,
     });
   }
 
@@ -37,10 +39,10 @@ export function spawnAndRamp(world: World, dt: number) {
     world.spawnTimer >= world.spawnInterval &&
     world.spawnedCount < world.targetCount
   ) {
-    const enemyTypes: Array<"chaser" | "patroller" | "charger"> = [
+    const enemyTypes: Array<"chaser" | "patroller" | "hulk"> = [
       "chaser",
       "patroller",
-      "charger",
+      "hulk",
     ];
     const spawnType = enemyTypes[Math.floor(Math.random() * enemyTypes.length)];
 

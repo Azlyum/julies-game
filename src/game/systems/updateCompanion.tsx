@@ -26,6 +26,9 @@ export function updateCompanion(world: World, dt: number) {
     c.pos.y += ny * followSpeed * dt;
     c.facingLeft = player.facing === -1;
 
+    const pulseSpeed = 3;
+    c.glowPhase += dt * pulseSpeed;
+
     const frameDuration = 0.12;
     c.animTimer += dt;
 

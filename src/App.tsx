@@ -60,10 +60,19 @@ export default function App() {
   }, [CreateWorldRef, gameIdle, runId]);
 
   return (
-    <div className="h-full grid place-items-center bg-[radial-gradient(circle_at_30%_20%,#171a22_0%,#0b0d12_60%)]">
+    <div className="w-full h-full grid place-items-center bg-[radial-gradient(circle_at_30%_20%,#171a22_0%,#0b0d12_60%)]">
       <div>
         Player Score {playerScore}
-        <div className="relative w-[min(92vw,900px)] aspect-[16/9] rounded-2xl overflow-hidden outline outline-1 outline-[#2a2f3a] shadow-[0_10px_30px_rgba(0,0,0,0.35)] bg-[#0e1117]">
+        <div
+          className=" relative
+                      w-[min(90vw,1800px)]
+                      aspect-[16/9]
+                      rounded-2xl
+                      overflow-hidden
+                      outline outline-1 outline-[#2a2f3a]
+                      shadow-[0_10px_30px_rgba(0,0,0,0.35)]
+                      bg-[#0e1117]"
+        >
           <div className="relative w-full h-full">
             <canvas
               id="canvas"
