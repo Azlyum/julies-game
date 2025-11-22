@@ -1,10 +1,12 @@
 import { BARK_RADIUS } from "../constants";
+import { barkSound } from "../sound/audioManager";
 import type { World } from "../types";
 
 export function handleBark(world: World, dt: number) {
   const { player, enemies } = world;
 
   if (player.barked && !player.barkedRecently) {
+    barkSound.play();
     player.barked = false;
     player.barkedRecently = true;
     player.barkedDisplayTimer = 0.2;

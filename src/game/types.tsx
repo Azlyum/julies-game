@@ -38,6 +38,7 @@ export interface Enemy {
   type: "chaser" | "patroller" | "hulk";
   damage?: number;
   feared: boolean;
+  hasScreamed?: boolean;
 }
 
 export type World = {

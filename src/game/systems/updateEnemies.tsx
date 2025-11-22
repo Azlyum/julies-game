@@ -1,3 +1,8 @@
+import {
+  goblinScreamSound,
+  pigOinkSound,
+  scaredHogSound,
+} from "../sound/audioManager";
 import type { World } from "../types";
 
 export function updateEnemies(world: World, dt: number) {
@@ -22,6 +27,17 @@ export function updateEnemies(world: World, dt: number) {
       const ny = dirY / len;
       e.pos.x += nx * e.speed * dt;
       e.pos.y += ny * e.speed * dt;
+    }
+
+    if (e.feared && !e.hasScreamed && e.type === "chaser") {
+      goblinScreamSound.play();
+      e.hasScreamed = true;
+    } else if (e.feared && !e.hasScreamed && e.type === "patroller") {
+      scaredHogSound.play();
+      e.hasScreamed = true;
+    } else if (e.feared && !e.hasScreamed && e.type === "hulk") {
+      pigOinkSound.play();
+      e.hasScreamed = true;
     }
 
     if (

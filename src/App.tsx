@@ -7,6 +7,7 @@ import { update } from "./game/core/update";
 import { render } from "./game/core/render";
 import Card from "./component/card";
 import { startLoop } from "./game/core/loop";
+import { backgroundMusicSound_v2 } from "./game/sound/audioManager";
 
 export default function App() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -48,6 +49,11 @@ export default function App() {
     world.spawningActive = !gameIdle;
     world.onGameOver = () => setGameOver(true);
 
+    if (world.running) {
+      backgroundMusicSound_v2.play();
+    } else if (world.idle) {
+      backgroundMusicSound_v2.stop();
+    }
     const detachResize = attachResize(canvas, ctx, () => computeDPR());
     const detachKeyboard = attachKeyboard(world.keys);
     const stop = startLoop(world, update, render);
@@ -83,7 +89,9 @@ export default function App() {
           {gameIdle && spawningActive && (
             <Card
               title={"Wiener Run"}
-              message={"For Julie ❤️."}
+              message={
+                "Move: WASD / Arrow Keys. Scare away enemies with SpaceBar"
+              }
               onButtonClick={() => {
                 setGameIdle(false);
                 setSpawningActive(true);
@@ -99,7 +107,7 @@ export default function App() {
               onButtonClick={() => {
                 setRunId((prev) => prev + 1);
                 setGameOver(false);
-                setSpawningActive(true);
+                setGameIdle(true);
                 console.log("Restarting game...", runId);
               }}
               buttonText="Restart"

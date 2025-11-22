@@ -96,7 +96,7 @@ export function render(world: World) {
       const glowColor = "#ffeea8";
       const glowIntensity = (Math.sin(c.glowPhase) + 1) / 2;
       ctx.shadowColor = glowColor;
-      ctx.shadowBlur = 20 + glowIntensity * 5;
+      ctx.shadowBlur = 15 + glowIntensity * 7;
       ctx.shadowOffsetX = 0;
       ctx.shadowOffsetY = 0;
     }
@@ -111,8 +111,4 @@ export function render(world: World) {
 
     ctx.restore();
   }
-
-  ctx.font = "16px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto";
-  ctx.fillStyle = "#94a3b8";
-  ctx.fillText("Move: WASD / Arrow Keys", 12, h - 12);
 }
