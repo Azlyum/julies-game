@@ -9,11 +9,20 @@ export function createWorld(
   const playerIdle = new Image();
   const playerRun = new Image();
   const playerBark = new Image();
+  const enemySprites = {
+    chaser: new Image(),
+    patroller: new Image(),
+    hulk: new Image(),
+  };
 
   companionImg.src = "./sprites/julieSprite.png";
   playerIdle.src = "./sprites/idle.png";
   playerRun.src = "./sprites/dogRunning.png";
   playerBark.src = "./sprites/barking.png";
+
+  enemySprites.chaser.src = "./sprites/goblin.png";
+  enemySprites.patroller.src = "./sprites/warthog.png";
+  enemySprites.hulk.src = "./sprites/ogre.png";
 
   const world: World = {
     canvas,
@@ -82,6 +91,20 @@ export function createWorld(
         loaded: false,
       },
     },
+    enemySprites: {
+      chaser: {
+        image: enemySprites.chaser,
+      },
+      patroller: {
+        image: enemySprites.patroller,
+      },
+      hulk: {
+        image: enemySprites.hulk,
+      },
+      frameW: 1024,
+      frameH: 1024,
+      loaded: false,
+    },
   };
 
   companionImg.onload = () => {
@@ -95,6 +118,15 @@ export function createWorld(
   };
   playerBark.onload = () => {
     world.playerSprites.bark.loaded = true;
+  };
+  enemySprites.chaser.onload = () => {
+    world.enemySprites.loaded = true;
+  };
+  enemySprites.patroller.onload = () => {
+    world.enemySprites.loaded = true;
+  };
+  enemySprites.hulk.onload = () => {
+    world.enemySprites.loaded = true;
   };
 
   return world;

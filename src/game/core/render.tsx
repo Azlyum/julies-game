@@ -1,5 +1,5 @@
 import type { World } from "../types";
-// import { drawGrid } from "./grid";
+import { background } from "./background";
 
 export function render(world: World) {
   const { ctx } = world;
@@ -9,9 +9,8 @@ export function render(world: World) {
 
   ctx.clearRect(0, 0, w, h);
 
-  // drawGrid(ctx, w, h);
+  background(ctx, w, h);
 
-  ctx.fillStyle = "#7dd3fc";
   const players = Array.isArray(world.player) ? world.player : [world.player];
   for (const p of players) {
     if (!world.playerSprites.run.loaded) continue;
@@ -57,18 +56,42 @@ export function render(world: World) {
     ctx.restore();
   }
 
-  // ctx. = "#00f91dff";
   for (const e of world.enemies) {
+    if (!world.enemySprites.loaded) continue;
+    const eSprite = world.enemySprites;
+
+    const frameIndex = e.animFrame ?? 0;
+    const sx = frameIndex * eSprite.frameW;
+    const sy = 0;
+    const sw = eSprite.frameW;
+    const sh = eSprite.frameH;
+
+    const scale = 0.05;
+    const dw = sw * scale;
+    const dh = sh * scale;
+    const drawX = e.pos.x - dw / 2;
+    const drawY = e.pos.y - dh / 2;
+
+    let img: HTMLImageElement;
     if (e.type === "chaser") {
-      ctx.fillStyle = "#48ff00ae";
-      ctx.fillRect(e.pos.x, e.pos.y, e.size, e.size);
+      img = eSprite.chaser.image;
     } else if (e.type === "patroller") {
-      ctx.fillStyle = "#ff800088";
-      ctx.fillRect(e.pos.x, e.pos.y, e.size, e.size);
-    } else if (e.type === "hulk") {
-      ctx.fillStyle = "#b300ffa5";
-      ctx.fillRect(e.pos.x, e.pos.y, e.size, e.size);
+      img = eSprite.patroller.image;
+    } else {
+      img = eSprite.hulk.image;
     }
+
+    ctx.save();
+
+    if (e.facing === 1) {
+      ctx.drawImage(img, sx, sy, sw, sh, drawX, drawY, dw, dh);
+    } else {
+      ctx.translate(drawX + dw / 2, drawY + dh / 2);
+      ctx.scale(-1, 1);
+      ctx.drawImage(img, sx, sy, sw, sh, -dw / 2, -dh / 2, dw, dh);
+    }
+
+    ctx.restore();
   }
 
   for (const c of world.companion) {

@@ -28,7 +28,6 @@ export function updateEnemies(world: World, dt: number) {
       e.pos.x += nx * e.speed * dt;
       e.pos.y += ny * e.speed * dt;
     }
-
     if (e.feared && !e.hasScreamed && e.type === "chaser") {
       goblinScreamSound.play();
       e.hasScreamed = true;
@@ -40,6 +39,11 @@ export function updateEnemies(world: World, dt: number) {
       e.hasScreamed = true;
     }
 
+    {
+      const dx = player.pos.x - e.pos.x;
+      const towardPlayer = dx >= 0 ? 1 : -1;
+      e.facing = e.feared ? -towardPlayer : towardPlayer;
+    }
     if (
       e.pos.x < -e.size ||
       e.pos.y < -e.size ||

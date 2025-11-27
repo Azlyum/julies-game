@@ -68,6 +68,9 @@ export function spawnAndRamp(world: World, dt: number) {
         break;
     }
 
+    const dx = world.player.pos.x - spawnPos.x;
+    const initialFacing = dx >= 0 ? 1 : -1;
+
     world.enemies.push({
       pos: spawnPos,
       vel: { x: 0, y: 0 },
@@ -76,6 +79,9 @@ export function spawnAndRamp(world: World, dt: number) {
       damage: ENEMY_DAMAGE[spawnType],
       type: spawnType,
       feared: false,
+      animFrame: 0,
+      animTimer: 0,
+      facing: initialFacing,
     });
 
     world.spawnedCount++;

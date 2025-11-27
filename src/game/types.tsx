@@ -39,6 +39,9 @@ export interface Enemy {
   damage?: number;
   feared: boolean;
   hasScreamed?: boolean;
+  animFrame: number;
+  animTimer: number;
+  facing: number;
 }
 
 export type World = {
@@ -88,6 +91,20 @@ export type World = {
       frameW: number;
       frameH: number;
       loaded: boolean;
+    };
+  };
+  enemySprites: {
+    frameW: number;
+    frameH: number;
+    loaded: boolean;
+    chaser: {
+      image: HTMLImageElement;
+    };
+    patroller: {
+      image: HTMLImageElement;
+    };
+    hulk: {
+      image: HTMLImageElement;
     };
   };
 };

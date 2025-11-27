@@ -71,7 +71,7 @@ export default function App() {
         Player Score {playerScore}
         <div
           className=" relative
-                      w-[min(90vw,1800px)]
+                      w-[min(80vw,1800px)]
                       aspect-[16/9]
                       rounded-2xl
                       overflow-hidden

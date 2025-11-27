@@ -1,5 +1,3 @@
-export const GRID_SPACING = 20;
-
 export const PLAYER_SIZE = 18;
 export const PLAYER_SPEED = 180;
 export const PLAYER_LIFE = 3;
